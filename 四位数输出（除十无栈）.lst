@@ -1,0 +1,79 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/12/18 10:35:01
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码  
+ 0000				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B8 0A07			    MOV AX,2567
+ 0008  B1 0A			    MOV CL,10
+ 000A  F6 F1			    DIV CL;SHANG-AL=234,YUSHU-AH=5
+ 000C  8A DC			    MOV BL,AH
+				    
+ 000E  B4 00			    MOV AH,0
+ 0010  F6 F1			    DIV CL;SHANG-AL=23,YUSHU-AH=4
+ 0012  8A FC			    MOV BH,AH
+				    
+ 0014  B4 00			    MOV AH,0
+ 0016  F6 F1			    DIV CL;SHANG-AL=2,YUSHU-AH=3
+ 0018  8A EC			    MOV CH,AH
+				    
+ 001A  8A D0			    MOV DL,AL
+ 001C  80 C2 30			    ADD DL,48
+ 001F  B4 02			    MOV AH,2
+ 0021  CD 21			    INT 21H
+				    
+ 0023  8A D5			    MOV DL,CH
+ 0025  80 C2 30			    ADD DL,48
+ 0028  B4 02			    MOV AH,2
+ 002A  CD 21			    INT 21H
+				    
+ 002C  8A D7			    MOV DL,BH
+ 002E  80 C2 30			    ADD DL,48
+ 0031  B4 02			    MOV AH,2
+ 0033  CD 21			    INT 21H
+				    
+ 0035  8A D3			    MOV DL,BL
+ 0037  80 C2 30			    ADD DL,48
+ 003A  B4 02			    MOV AH,2
+ 003C  CD 21			    INT 21H
+				    
+ 003E  B4 4C			    MOV AH,4CH
+ 0040  CD 21			    INT 21H
+ 0042				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    09/12/18 10:35:01
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0042	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors

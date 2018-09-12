@@ -1,0 +1,87 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/12/18 10:47:28
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码  
+ 0000				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B8 04D2			    MOV AX,1234
+ 0008  B1 0A			    MOV CL,10
+ 000A  BE 0000			    MOV SI,0
+				    
+ 000D  F6 F1			    DIV CL;SHANG-AL=123,YUSHU-AH=4
+ 000F  50			    PUSH AX
+ 0010  46			    INC SI
+				    
+ 0011  B4 00			    MOV AH,0
+ 0013  F6 F1			    DIV CL;SHANG-AL=12,YUSHU-AH=3
+ 0015  50			    PUSH AX
+ 0016  46			    INC SI
+				    
+ 0017  B4 00			    MOV AH,0
+ 0019  F6 F1			    DIV CL;SHANG-AL=1,YUSHU-AH=2
+ 001B  50			    PUSH AX
+ 001C  46			    INC SI
+				    
+ 001D  8A D0			    MOV DL,AL
+ 001F  80 C2 30			    ADD DL,48
+ 0022  B4 02			    MOV AH,2
+ 0024  CD 21			    INT 21H
+				    
+ 0026  5B			    POP BX
+ 0027  8A D7			    MOV DL,BH
+ 0029  80 C2 30			    ADD DL,48
+ 002C  B4 02			    MOV AH,2
+ 002E  CD 21			    INT 21H
+				    
+ 0030  59			    POP CX
+ 0031  8A D5			    MOV DL,CH
+ 0033  80 C2 30			    ADD DL,48
+ 0036  B4 02			    MOV AH,2
+ 0038  CD 21			    INT 21H
+				    
+ 003A  5A			    POP DX
+ 003B  8A D6			    MOV DL,DH
+ 003D  80 C2 30			    ADD DL,48
+ 0040  B4 02			    MOV AH,2
+ 0042  CD 21			    INT 21H
+				    
+ 0044  B4 4C			    MOV AH,4CH
+ 0046  CD 21			    INT 21H
+ 0048				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    09/12/18 10:47:28
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0048	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors
