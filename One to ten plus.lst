@@ -1,0 +1,97 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/14/18 21:55:10
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码  
+ 0000				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B4 00			    MOV AH,0;SUM
+ 0007  B0 01			    MOV AL,1;PLUS
+				    
+ 0009				L0:
+ 0009  3C 0A			    CMP AL,10
+ 000B  77 06			    JA L1
+				    
+ 000D  02 E0			    ADD AH,AL
+ 000F  04 01			    ADD AL,1
+ 0011  EB F6			    JMP L0
+				    
+ 0013				L1:
+ 0013  8A C4				MOV AL,AH
+ 0015  B4 00				MOV AH,0
+ 0017  B1 0A				MOV CL,10
+ 0019  B5 00				MOV CH,0
+ 001B  83 F8 0A				CMP AX,10
+ 001E  72 0F				JB L2
+					
+ 0020				DIVAGAIN:	
+ 0020  F6 F1				DIV CL
+ 0022  50				PUSH AX
+ 0023  80 C5 01				ADD CH,1
+ 0026  83 F8 0A				CMP AX,10
+ 0029  72 04				JB L2
+					
+ 002B  B4 00				MOV AH,0
+ 002D  EB F1				JMP DIVAGAIN
+ 002F				L2:
+ 002F  8A D0				MOV DL,AL
+ 0031  80 C2 30				ADD DL,48
+ 0034  B4 02				MOV AH,2
+ 0036  CD 21				INT 21H
+					
+ 0038				GETAGAIN:
+ 0038  80 FD 00				CMP CH,0
+ 003B  74 0C				JE OVER
+ 003D  5A				POP DX
+ 003E  8A D6				MOV DL,DH
+ 0040  B4 02				MOV AH,2
+ 0042  CD 21				INT 21H
+ 0044  80 ED 01				SUB CH,1
+ 0047  EB EF				JMP GETAGAIN
+
+ 0049				OVER:	
+ 0049  B4 4C			    MOV AH,4CH
+ 004B  CD 21			    INT 21H
+ 004D				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    09/14/18 21:55:10
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 004D	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+DIVAGAIN . . . . . . . . . . . .	L Near	 0020	  CODES	
+GETAGAIN . . . . . . . . . . . .	L Near	 0038	  CODES	
+L0 . . . . . . . . . . . . . . .	L Near	 0009	  CODES	
+L1 . . . . . . . . . . . . . . .	L Near	 0013	  CODES	
+L2 . . . . . . . . . . . . . . .	L Near	 002F	  CODES	
+OVER . . . . . . . . . . . . . .	L Near	 0049	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors

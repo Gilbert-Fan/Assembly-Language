@@ -1,0 +1,86 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/15/18 09:43:55
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码  
+ 0000				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B4 00			    MOV AH,0
+ 0007  B0 01			    MOV AL,1
+
+ 0009				L0:    
+ 0009  02 E0			    ADD AH,AL
+ 000B  04 01			    ADD AL,1
+ 000D  3C 1E			    CMP AL,30
+ 000F  76 F8			    JNA L0
+				    
+ 0011  8A C4			    MOV AL,AH
+ 0013  B4 00			    MOV AH,0
+ 0015  B1 0A			    MOV CL,10
+ 0017  B5 00			    MOV CH,0
+				    
+ 0019				L1:
+ 0019  B4 00				MOV AH,0
+ 001B  F6 F1			    DIV CL;SHANG-AL,YUSHU-AH
+ 001D  50			    PUSH AX
+ 001E  80 C5 01			    ADD CH,1
+ 0021  3C 0A			    CMP AL,10
+ 0023  73 F4			    JNB L1
+				    
+ 0025  8A D0			    MOV DL,AL
+ 0027  80 C2 30			    ADD DL,48
+ 002A  B4 02			    MOV AH,2
+ 002C  CD 21			    INT 21H
+				    
+ 002E				L2:
+ 002E  5A			    POP DX
+ 002F  80 ED 01			    SUB CH,1
+ 0032  8A D6			    MOV DL,DH
+ 0034  80 C2 30			    ADD DL,48
+ 0037  B4 02			    MOV AH,2
+ 0039  CD 21			    INT 21H
+ 003B  80 FD 00			    CMP CH,0
+ 003E  77 EE			    JA L2
+				    
+ 0040  B4 4C			    MOV AH,4CH
+ 0042  CD 21			    INT 21H
+ 0044				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    09/15/18 09:43:55
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0044	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+L0 . . . . . . . . . . . . . . .	L Near	 0009	  CODES	
+L1 . . . . . . . . . . . . . . .	L Near	 0019	  CODES	
+L2 . . . . . . . . . . . . . . .	L Near	 002E	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors
