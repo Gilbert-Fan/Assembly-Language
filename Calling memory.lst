@@ -1,0 +1,87 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/18/18 21:59:41
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码 
+				    
+ 0000 0A			    A0 DB 10
+ 0001 41 01 42			    A1 DB 'A',1,'B'
+ 0004 0001			    A2 DW 1
+ 0006 0003 0004			    A3 DW 3,4
+ 000A  000A [			    A4 DW 10 DUP (?)
+        0000
+       ]
+				     
+ 001E				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B8 0000			    MOV AX,0
+ 0008  BB 0001			    MOV BX,1
+				    
+ 000B				ADDAGAIN:
+ 000B  83 FB 03			    CMP BX,3
+ 000E  77 05			    JA OVER
+ 0010  03 C3			    ADD AX,BX
+ 0012  43			    INC BX
+ 0013  EB F6			    JMP ADDAGAIN
+				    
+				;L0:
+				    ;MOV DL,AL
+				    ;ADD DL,48
+				    ;MOV AH,2
+				    ;INT 21H
+				    
+ 0015				OVER:
+ 0015  BE 000A R			MOV SI,OFFSET A4
+ 0018  89 04				MOV [SI],AX
+ 001A  8B 14				MOV DX,[SI]
+ 001C  80 C2 30				ADD DL,48
+ 001F  B4 02				MOV AH,2
+ 0021  CD 21				INT 21H
+
+ 0023  B4 4C			    MOV AH,4CH
+ 0025  CD 21			    INT 21H
+ 0027				CODES ENDS
+				    END START
+
+Microsoft (R) Macro Assembler Version 6.11		    09/18/18 21:59:41
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0027	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 001E	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+A0 . . . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+A1 . . . . . . . . . . . . . . .	Byte	 0001	  DATAS	
+A2 . . . . . . . . . . . . . . .	Word	 0004	  DATAS	
+A3 . . . . . . . . . . . . . . .	Word	 0006	  DATAS	
+A4 . . . . . . . . . . . . . . .	Word	 000A	  DATAS	
+ADDAGAIN . . . . . . . . . . . .	L Near	 000B	  CODES	
+OVER . . . . . . . . . . . . . .	L Near	 0015	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors

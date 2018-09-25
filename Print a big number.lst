@@ -1,0 +1,83 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/18/18 21:41:46
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码  
+ 0000				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B8 0005			    MOV AX,5
+ 0008  B1 0A			    MOV CL,10
+ 000A  B5 00			    MOV CH,0
+				    
+ 000C				L0:
+ 000C  83 F8 0A			    CMP AX,10
+ 000F  72 0A			    JB PRINT_SINGLE
+				    
+ 0011  F6 F1			    DIV CL;SHANG AL,YUSHU AH
+ 0013  50			    PUSH AX
+ 0014  80 C5 01			    ADD CH,1
+ 0017  B4 00			    MOV AH,0
+ 0019  EB F1			    JMP L0
+				    
+ 001B				PRINT_SINGLE:
+ 001B  8A D0				MOV DL,AL
+ 001D  80 C2 30				ADD DL,48
+ 0020  B4 02				MOV AH,2
+ 0022  CD 21				INT 21H
+ 0024  EB 00				JMP POP_AGAIN
+					
+ 0026				POP_AGAIN:
+ 0026  80 FD 00				CMP CH,0
+ 0029  74 0F				JE OVER
+ 002B  5A				POP DX
+ 002C  80 ED 01				SUB CH,1
+ 002F  8A D6				MOV DL,DH
+ 0031  80 C2 30				ADD DL,48
+ 0034  B4 02				MOV AH,2
+ 0036  CD 21				INT 21H
+ 0038  EB EC				JMP POP_AGAIN
+					
+ 003A				OVER:    
+ 003A  B4 4C			    MOV AH,4CH
+ 003C  CD 21			    INT 21H
+ 003E				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    09/18/18 21:41:46
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 003E	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+L0 . . . . . . . . . . . . . . .	L Near	 000C	  CODES	
+OVER . . . . . . . . . . . . . .	L Near	 003A	  CODES	
+POP_AGAIN  . . . . . . . . . . .	L Near	 0026	  CODES	
+PRINT_SINGLE . . . . . . . . . .	L Near	 001B	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors
