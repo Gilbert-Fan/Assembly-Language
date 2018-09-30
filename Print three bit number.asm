@@ -14,30 +14,35 @@ START:
     ;此处输入代码段代码
     
     MOV CL,10
-    MOV BX,0
-    MOV DH,0
     
-INPUT:    
     MOV AH,1
     INT 21H
     
-    CMP AL,'0'
-    JB OUTPUT
-    CMP AL,'9'
-    JA OUTPUT
+    SUB AL,48
+    MOV AH,0
+    MUL CL
+    
+    MOV BX,AX
+    
+    MOV AH,1
+    INT 21H
     
     SUB AL,48
     MOV AH,0
-    MOV DX,AX
-    MOV AX,BX
+    ADD AX,BX
     MUL CL
-    ADD AX,DX
-    MOV BX,AX
-    JMP INPUT
     
-OUTPUT:
-	CALL OUT1
-	
+    MOV BX,AX
+    
+    MOV AH,1
+    INT 21H
+    
+    SUB AL,48
+    MOV AH,0
+    ADD AX,BX
+    
+    CALL OUT1
+    
     MOV AH,4CH
     INT 21H
     
@@ -81,4 +86,3 @@ OVER:
     
 CODES ENDS
     END START
-

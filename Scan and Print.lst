@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 6.11		    09/18/18 22:11:58
+Microsoft (R) Macro Assembler Version 6.11		    09/27/18 21:45:50
 tempfile.asm						     Page 1 - 1
 
 
@@ -17,19 +17,77 @@ tempfile.asm						     Page 1 - 1
  0003  8E D8			    MOV DS,AX
 				    ;此处输入代码段代码
 				    
- 0005  B4 01			    MOV AH,1
- 0007  CD 21			    INT 21H
+ 0005  B1 0A			    MOV CL,10
+ 0007  BB 0000			    MOV BX,0
+ 000A  B6 00			    MOV DH,0
 				    
- 0009  8A D0			    MOV DL,AL
-				    ;ADD DL,48
- 000B  B4 02			    MOV AH,2
- 000D  CD 21			    INT 21H
+ 000C				INPUT:    
+ 000C  B4 01			    MOV AH,1
+ 000E  CD 21			    INT 21H
 				    
- 000F  B4 4C			    MOV AH,4CH
- 0011  CD 21			    INT 21H
- 0013				CODES ENDS
+ 0010  3C 30			    CMP AL,'0'
+ 0012  72 14			    JB OUTPUT
+ 0014  3C 39			    CMP AL,'9'
+ 0016  77 10			    JA OUTPUT
+				    
+ 0018  2C 30			    SUB AL,48
+ 001A  B4 00			    MOV AH,0
+ 001C  8B D0			    MOV DX,AX
+ 001E  8B C3			    MOV AX,BX
+ 0020  F6 E1			    MUL CL
+ 0022  03 C2			    ADD AX,DX
+ 0024  8B D8			    MOV BX,AX
+ 0026  EB E4			    JMP INPUT
+				    
+ 0028				OUTPUT:
+ 0028  E8 0004				CALL OUT1
+					
+ 002B  B4 4C			    MOV AH,4CH
+ 002D  CD 21			    INT 21H
+				    
+ 002F				    OUT1 PROC
+				    
+ 002F  B1 0A			    MOV CL,10
+ 0031  B5 00			    MOV CH,0
+				    
+ 0033				L0:
+ 0033  83 F8 0A			    CMP AX,10
+ 0036  72 0A			    JB PRINT_SINGLE
+				    
+ 0038  F6 F1			    DIV CL;SHANG AL,YUSHU AH
+ 003A  50			    PUSH AX
+ 003B  80 C5 01			    ADD CH,1
+ 003E  B4 00			    MOV AH,0
+ 0040  EB F1			    JMP L0
+				    
+ 0042				PRINT_SINGLE:
+ 0042  8A D0				MOV DL,AL
+ 0044  80 C2 30				ADD DL,48
+ 0047  B4 02				MOV AH,2
+ 0049  CD 21				INT 21H
+ 004B  EB 00				JMP POP_AGAIN
+					
+ 004D				POP_AGAIN:
+ 004D  80 FD 00				CMP CH,0
+ 0050  74 0F				JE OVER
+ 0052  5A				POP DX
+ 0053  80 ED 01				SUB CH,1
+ 0056  8A D6				MOV DL,DH
+ 0058  80 C2 30				ADD DL,48
+ 005B  B4 02				MOV AH,2
+ 005D  CD 21				INT 21H
+ 005F  EB EC				JMP POP_AGAIN
+					
+ 0061				OVER:    
+				    
+ 0061  C3			    RET
+ 0062				    OUT1 ENDP
+				    
+ 0062				CODES ENDS
 				    END START
-Microsoft (R) Macro Assembler Version 6.11		    09/18/18 22:11:58
+
+
+Microsoft (R) Macro Assembler Version 6.11		    09/27/18 21:45:50
 tempfile.asm						     Symbols 2 - 1
 
 
@@ -39,15 +97,28 @@ Segments and Groups:
 
                 N a m e                 Size     Length   Align   Combine Class
 
-CODES  . . . . . . . . . . . . .	16 Bit	 0013	  Para	  Private 
+CODES  . . . . . . . . . . . . .	16 Bit	 0062	  Para	  Private 
 DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
 STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+OUT1 . . . . . . . . . . . . . .	P Near	 002F	  CODES	Length= 0033 Public
+  L0 . . . . . . . . . . . . . .	L Near	 0033	  CODES	
+  PRINT_SINGLE . . . . . . . . .	L Near	 0042	  CODES	
+  POP_AGAIN  . . . . . . . . . .	L Near	 004D	  CODES	
+  OVER . . . . . . . . . . . . .	L Near	 0061	  CODES	
 
 
 Symbols:
 
                 N a m e                 Type     Value    Attr
 
+INPUT  . . . . . . . . . . . . .	L Near	 000C	  CODES	
+OUTPUT . . . . . . . . . . . . .	L Near	 0028	  CODES	
 START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
 
 	   0 Warnings

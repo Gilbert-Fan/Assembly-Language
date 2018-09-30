@@ -1,0 +1,118 @@
+Microsoft (R) Macro Assembler Version 6.11		    09/26/18 11:05:47
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+				    ;此处输入数据段代码  
+ 0000				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+				    ;此处输入代码段代码
+				    
+ 0005  B1 0A			    MOV CL,10
+				    
+ 0007  B4 01			    MOV AH,1
+ 0009  CD 21			    INT 21H
+				    
+ 000B  2C 30			    SUB AL,48
+ 000D  B4 00			    MOV AH,0
+ 000F  F6 E1			    MUL CL
+				    
+ 0011  8B D8			    MOV BX,AX
+					
+ 0013  B4 01				MOV AH,1
+ 0015  CD 21				INT 21H
+					
+ 0017  2C 30				SUB AL,48
+ 0019  B4 00				MOV AH,0
+ 001B  03 C3				ADD AX,BX
+					;ADD AL,48
+				    
+ 001D  E8 0004			    CALL OUT1
+				    
+ 0020  B4 4C			    MOV AH,4CH
+ 0022  CD 21			    INT 21H
+				    
+ 0024				    OUT1 PROC
+				    
+ 0024  B1 0A			    MOV CL,10
+ 0026  B5 00			    MOV CH,0
+				    
+ 0028				L0:
+ 0028  83 F8 0A			    CMP AX,10
+ 002B  72 0A			    JB PRINT_SINGLE
+				    
+ 002D  F6 F1			    DIV CL;SHANG AL,YUSHU AH
+ 002F  50			    PUSH AX
+ 0030  80 C5 01			    ADD CH,1
+ 0033  B4 00			    MOV AH,0
+ 0035  EB F1			    JMP L0
+				    
+ 0037				PRINT_SINGLE:
+ 0037  8A D0				MOV DL,AL
+ 0039  80 C2 30				ADD DL,48
+ 003C  B4 02				MOV AH,2
+ 003E  CD 21				INT 21H
+ 0040  EB 00				JMP POP_AGAIN
+					
+ 0042				POP_AGAIN:
+ 0042  80 FD 00				CMP CH,0
+ 0045  74 0F				JE OVER
+ 0047  5A				POP DX
+ 0048  80 ED 01				SUB CH,1
+ 004B  8A D6				MOV DL,DH
+ 004D  80 C2 30				ADD DL,48
+ 0050  B4 02				MOV AH,2
+ 0052  CD 21				INT 21H
+ 0054  EB EC				JMP POP_AGAIN
+					
+ 0056				OVER:    
+				    
+ 0056  C3			    RET
+ 0057				    OUT1 ENDP
+				    
+ 0057				CODES ENDS
+				    END START
+
+Microsoft (R) Macro Assembler Version 6.11		    09/26/18 11:05:47
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0057	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+OUT1 . . . . . . . . . . . . . .	P Near	 0024	  CODES	Length= 0033 Public
+  L0 . . . . . . . . . . . . . .	L Near	 0028	  CODES	
+  PRINT_SINGLE . . . . . . . . .	L Near	 0037	  CODES	
+  POP_AGAIN  . . . . . . . . . .	L Near	 0042	  CODES	
+  OVER . . . . . . . . . . . . .	L Near	 0056	  CODES	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors
