@@ -36,6 +36,7 @@ INPUT:
     JMP INPUT
     
 OUTPUT:
+	MOV AX,BX
 	CALL OUT1
 	
     MOV AH,4CH
@@ -81,4 +82,5 @@ OVER:
     
 CODES ENDS
     END START
+
 

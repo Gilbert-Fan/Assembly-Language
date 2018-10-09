@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 6.11		    09/27/18 21:45:50
+Microsoft (R) Macro Assembler Version 6.11		    10/09/18 10:41:27
 tempfile.asm						     Page 1 - 1
 
 
@@ -40,54 +40,55 @@ tempfile.asm						     Page 1 - 1
  0026  EB E4			    JMP INPUT
 				    
  0028				OUTPUT:
- 0028  E8 0004				CALL OUT1
+ 0028  8B C3				MOV AX,BX
+ 002A  E8 0004				CALL OUT1
 					
- 002B  B4 4C			    MOV AH,4CH
- 002D  CD 21			    INT 21H
+ 002D  B4 4C			    MOV AH,4CH
+ 002F  CD 21			    INT 21H
 				    
- 002F				    OUT1 PROC
+ 0031				    OUT1 PROC
 				    
- 002F  B1 0A			    MOV CL,10
- 0031  B5 00			    MOV CH,0
+ 0031  B1 0A			    MOV CL,10
+ 0033  B5 00			    MOV CH,0
 				    
- 0033				L0:
- 0033  83 F8 0A			    CMP AX,10
- 0036  72 0A			    JB PRINT_SINGLE
+ 0035				L0:
+ 0035  83 F8 0A			    CMP AX,10
+ 0038  72 0A			    JB PRINT_SINGLE
 				    
- 0038  F6 F1			    DIV CL;SHANG AL,YUSHU AH
- 003A  50			    PUSH AX
- 003B  80 C5 01			    ADD CH,1
- 003E  B4 00			    MOV AH,0
- 0040  EB F1			    JMP L0
+ 003A  F6 F1			    DIV CL;SHANG AL,YUSHU AH
+ 003C  50			    PUSH AX
+ 003D  80 C5 01			    ADD CH,1
+ 0040  B4 00			    MOV AH,0
+ 0042  EB F1			    JMP L0
 				    
- 0042				PRINT_SINGLE:
- 0042  8A D0				MOV DL,AL
- 0044  80 C2 30				ADD DL,48
- 0047  B4 02				MOV AH,2
- 0049  CD 21				INT 21H
- 004B  EB 00				JMP POP_AGAIN
+ 0044				PRINT_SINGLE:
+ 0044  8A D0				MOV DL,AL
+ 0046  80 C2 30				ADD DL,48
+ 0049  B4 02				MOV AH,2
+ 004B  CD 21				INT 21H
+ 004D  EB 00				JMP POP_AGAIN
 					
- 004D				POP_AGAIN:
- 004D  80 FD 00				CMP CH,0
- 0050  74 0F				JE OVER
- 0052  5A				POP DX
- 0053  80 ED 01				SUB CH,1
- 0056  8A D6				MOV DL,DH
- 0058  80 C2 30				ADD DL,48
- 005B  B4 02				MOV AH,2
- 005D  CD 21				INT 21H
- 005F  EB EC				JMP POP_AGAIN
+ 004F				POP_AGAIN:
+ 004F  80 FD 00				CMP CH,0
+ 0052  74 0F				JE OVER
+ 0054  5A				POP DX
+ 0055  80 ED 01				SUB CH,1
+ 0058  8A D6				MOV DL,DH
+ 005A  80 C2 30				ADD DL,48
+ 005D  B4 02				MOV AH,2
+ 005F  CD 21				INT 21H
+ 0061  EB EC				JMP POP_AGAIN
 					
- 0061				OVER:    
+ 0063				OVER:    
 				    
- 0061  C3			    RET
- 0062				    OUT1 ENDP
+ 0063  C3			    RET
+ 0064				    OUT1 ENDP
 				    
- 0062				CODES ENDS
+ 0064				CODES ENDS
 				    END START
 
 
-Microsoft (R) Macro Assembler Version 6.11		    09/27/18 21:45:50
+Microsoft (R) Macro Assembler Version 6.11		    10/09/18 10:41:27
 tempfile.asm						     Symbols 2 - 1
 
 
@@ -97,7 +98,7 @@ Segments and Groups:
 
                 N a m e                 Size     Length   Align   Combine Class
 
-CODES  . . . . . . . . . . . . .	16 Bit	 0062	  Para	  Private 
+CODES  . . . . . . . . . . . . .	16 Bit	 0064	  Para	  Private 
 DATAS  . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
 STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
 
@@ -106,11 +107,11 @@ Procedures,  parameters and locals:
 
                 N a m e                 Type     Value    Attr
 
-OUT1 . . . . . . . . . . . . . .	P Near	 002F	  CODES	Length= 0033 Public
-  L0 . . . . . . . . . . . . . .	L Near	 0033	  CODES	
-  PRINT_SINGLE . . . . . . . . .	L Near	 0042	  CODES	
-  POP_AGAIN  . . . . . . . . . .	L Near	 004D	  CODES	
-  OVER . . . . . . . . . . . . .	L Near	 0061	  CODES	
+OUT1 . . . . . . . . . . . . . .	P Near	 0031	  CODES	Length= 0033 Public
+  L0 . . . . . . . . . . . . . .	L Near	 0035	  CODES	
+  PRINT_SINGLE . . . . . . . . .	L Near	 0044	  CODES	
+  POP_AGAIN  . . . . . . . . . .	L Near	 004F	  CODES	
+  OVER . . . . . . . . . . . . .	L Near	 0063	  CODES	
 
 
 Symbols:
